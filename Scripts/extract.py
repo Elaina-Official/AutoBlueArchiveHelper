@@ -1,11 +1,11 @@
 import os
 import ffmpeg
 import cv2
-import subprocess
+import time
 
-def extract_frames(video_path, output_folder, width=640, height=360):
+def extract_frames(video_path, output_folder, frame_rate=2, width=640, height=360):
     """
-    使用 ffmpeg 从视频中提取所有帧，按比例缩放到 360p，并保存到指定文件夹。
+    使用 ffmpeg 从视频中提取所有帧，默认帧数为 2，按 16:9 比例缩放到 360p，并保存到指定文件夹。
     """
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -16,7 +16,10 @@ def extract_frames(video_path, output_folder, width=640, height=360):
     ffmpeg_input = ffmpeg.input(video_path)
     ffmpeg_output = (
         ffmpeg
-        .output(ffmpeg_input, output_pattern, vf=f"scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
+        .output(
+            ffmpeg_input, 
+            output_pattern, 
+            vf=f"fps={frame_rate},scale={width}:{height}:force_original_aspect_ratio=decrease,pad={width}:{height}:(ow-iw)/2:(oh-ih)/2")
         .global_args('-loglevel', 'error')
         .run()
     )
@@ -63,8 +66,9 @@ def main():
             
             # 从视频中提取帧
             print(f"Processing video {video_file}...")
+            t = time.perf_counter()
             extract_frames(video_path, output_folder)
-            print(f"Video {video_file} processing finished...")
+            print(f"Video {video_file} processing finished in {time.perf_counter()- t:.8f}s")
 
 if __name__ == '__main__':
     main()

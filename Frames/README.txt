@@ -1,0 +1,1 @@
+The pictures processed by extract.py will be saved here.

@@ -1,0 +1,1 @@
+Put your videos here and extract.py will process them into pictures.

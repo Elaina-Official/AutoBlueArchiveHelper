@@ -1,0 +1,13 @@
+# 训练集路径
+train: ../Datasets/images/train
+
+# 验证集路径
+val: ../Datasets/images/val
+
+# 类的数量
+nc: 1
+
+# 类名
+names: [
+  'student'
+]
