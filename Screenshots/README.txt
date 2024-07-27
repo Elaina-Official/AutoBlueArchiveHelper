@@ -1,0 +1,1 @@
+The screenshots processed by screenshot.py will be saved here.

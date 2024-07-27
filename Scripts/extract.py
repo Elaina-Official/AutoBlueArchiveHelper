@@ -32,10 +32,15 @@ def get_total_frames(video_path):
     frames = video_capture.get(cv2.CAP_PROP_FRAME_COUNT)
     return frames
 
+def is_video(video_path):
+    _, extension = os.path.splitext(video_path)
+    if extension.lower() in [".mp4"]:
+        return True
+    return False
+
 def main():
-    current_file_path = os.path.abspath(__file__) # 当前文件路径
-    root_dir = os.path.dirname(os.path.dirname(current_file_path)) # 获取项目根目录
-    root_dir.replace("\\", "/").strip() # 替换成标准路径
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # 项目根目录
+    root_dir = root_dir.replace("\\", "/").strip() # 替换成标准路径
 
     video_folder = root_dir + '/Videos' # 获取待处理视频目录
     screenshot_folder = root_dir + '/Frames' # 获取截图文件夹存放目录
@@ -49,7 +54,7 @@ def main():
         video_path = os.path.join(video_folder, video_file)
 
         # 检查是否为文件（排除文件夹）
-        if os.path.isfile(video_path):
+        if os.path.isfile(video_path) and is_video(video_path):
             # 获取视频文件的名称（不带扩展名）
             video_name = os.path.splitext(video_file)[0]
 
